@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Karantina:wght@300;400;700&display=swap');
+@import "tailwindcss";
+
+
+
+@theme{
+    --font-karantina: "Karantina";
+  }
+
+@layer utilities{
+    ::-webkit-scrollbar{
+        display: none;
+    }
+
+.font-stroke-white-sm{
+    -webkit-text-stroke: 0.5px white;
+    }
+
+    .font-stroke-white-md{
+    -webkit-text-stroke: 1px white;
+    }
+    
+    .font-stroke-white-lg{
+    -webkit-text-stroke: 2px white;
+    }
+
+    .font-stroke-black-sm{
+    -webkit-text-stroke: 0.5px black;
+    }
+
+    .font-stroke-black-md{
+    -webkit-text-stroke: 1px black;
+    }
+    
+    .font-stroke-black-lg{
+    -webkit-text-stroke: 2px black;
+    }
+}
