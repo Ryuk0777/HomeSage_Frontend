@@ -9,6 +9,7 @@ import Cursor from '../components/Cursor';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from 'lenis'
 import Reasons from '../components/Reasons';
+import TechUsed from '../components/TechUsed';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,8 +22,7 @@ const LandingPage = props => {
     const aboutRef = useRef();
 
     const reasonsRef = useRef();
-    const div2Ref = useRef();
-
+  
     let holdTimeout = useRef(null);
 
     const handleOpacityChange = (opacity) => {
@@ -81,16 +81,15 @@ const LandingPage = props => {
     <ExploreTag reasonsRef={reasonsRef} />
     <Model className="h-full w-full fixed top-0 left-0 z-0"/>
      <div className="font-karantina cursor-none">
-      <Navbar homeRef={homeRef}/>
+      <Navbar homeRef={homeRef} tech_usedRef={tech_usedRef} />
       <div ref={mainRef} className='h-auto w-full'>
         <Landing1 reasonsRef={reasonsRef}/>
       
-        <div className='h-[500vh] w-full absolute top-0 left-0'>
-            <div className='h-screen'></div>
+        <div className='h-auto w-full absolute top-0 left-0'>
+            <div ref={homeRef} className='h-screen'></div>
             <Reasons ref={reasonsRef}/>
-            <div ref={div2Ref} className='h-screen bg-emerald-300'></div>
-            {/* <div className='h-screen bg-cyan-300'></div> */}
-            {/* <div className='h-screen bg-slate-300'></div> */}
+            <TechUsed ref={tech_usedRef} />
+            <div className='h-60 w-full bg-slate-200'></div>
         </div>
       </div>
     </div>

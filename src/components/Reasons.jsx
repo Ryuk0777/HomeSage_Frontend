@@ -88,7 +88,7 @@ const Reasons = ({ ref }) => {
   return (
     <div
       ref={ref}
-      className="h-[90vh] w-screen lg:h-[110vh] relative flex flex-col justify-center items-center bg-red-20 gap-x-25 px-5 gap-y-5"
+      className="h-[90vh] w-screen lg:h-[120vh] relative flex flex-col justify-center items-center bg-red-20 gap-x-25 px-5 gap-y-5"
     >
       <div ref={titleRef} className="w-auto h-auto flex gap-x-5">
         <h1 className="text-[min(10vw,90px)] font-bold text-black font-stroke-white-sm">

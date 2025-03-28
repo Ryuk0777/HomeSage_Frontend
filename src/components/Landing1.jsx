@@ -11,7 +11,6 @@ const Landing1 = ({ reasonsRef }) => {
   const titleRef = useRef();
   const subTitleRef = useRef();
   const buttonRef = useRef();
-  const questionRef = useRef();
 
   let mm = gsap.matchMedia();
 
