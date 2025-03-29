@@ -7,12 +7,15 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Landing1 = ({ reasonsRef }) => {
+const Landing1 = ({ reasonsRef, cursorRef }) => {
+  const landing1Ref = useRef();
+
   const titleRef = useRef();
   const subTitleRef = useRef();
   const buttonRef = useRef();
 
   let mm = gsap.matchMedia();
+
 
   useEffect(() => {
     if (!reasonsRef.current || !subTitleRef.current || !buttonRef.current) return;
@@ -61,6 +64,21 @@ const Landing1 = ({ reasonsRef }) => {
               y: -(window.outerHeight*0.1),
               opacity:0,
             })
+
+
+            gsap.to(landing1Ref.current, {
+              zIndex: 0,
+              delay: 1,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: reasonsRef.current,
+                start: "top bottom",
+                end: "top top",
+                markers: false,
+                scrub: true,
+              }
+            });
+
         }
 
 
@@ -80,6 +98,19 @@ const Landing1 = ({ reasonsRef }) => {
               delay:1,
               opacity:0,
             })
+
+            gsap.to(landing1Ref.current, {
+              zIndex: 0,
+              delay: 1,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: reasonsRef.current,
+                start: "top bottom",
+                end: "top top",
+                markers: false,
+                scrub: true,
+              }
+            });
       }
       }
     );
@@ -100,8 +131,46 @@ const Landing1 = ({ reasonsRef }) => {
   
   
 
+  useEffect(() => {
+    if (!cursorRef.current || !buttonRef.current) return;
+  
+    const handleMouseEnter = () => {
+      gsap.to(cursorRef.current, {
+        backgroundColor: "transparent",
+        duration: 0.5,
+        ease: 'power2.out',
+        stagger: {
+          amount: 0.2,
+        },
+      });
+    };
+  
+    const handleMouseLeave = () => {
+      gsap.to(cursorRef.current, {
+        backgroundColor: "black",
+        duration: 0.5,
+        ease: 'power2.out',
+        stagger: {
+          amount: 0.2,
+        },
+      });
+    };
+  
+    buttonRef.current.addEventListener('mouseenter', handleMouseEnter);
+    buttonRef.current.addEventListener('mouseleave', handleMouseLeave);
+  
+    return () => {
+      if (buttonRef.current) {
+        buttonRef.current.removeEventListener('mouseenter', handleMouseEnter);
+        buttonRef.current.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+  }, [cursorRef, buttonRef]);
+
+
   return (
-    <div className="h-screen w-full text-center fixed top-0 left-0 z-10 flex flex-col justify-center items-center lg:justify-end">
+    <>
+    <div ref={landing1Ref} className="h-screen w-full text-center fixed top-0 left-0 z-20 flex flex-col justify-center items-center lg:justify-end">
       <div className="lg:w-full lg:flex lg:justify-start hidden lg:px-10">
       </div>
       <div className="w-full flex flex-col items-center space-y-0 gap-y-5 lg:gap-y-7">
@@ -132,6 +201,7 @@ const Landing1 = ({ reasonsRef }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

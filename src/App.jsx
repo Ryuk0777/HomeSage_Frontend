@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import LandingPage from "./pages/LandingPage"
+import Prediciton from "./pages/Prediciton"
 
 function App() {
 
@@ -10,7 +11,7 @@ function App() {
     },
     {
       path: "/Prediction",
-      element: <div>Prediction</div>
+      element: <Prediciton/>
     }
   ])
 
