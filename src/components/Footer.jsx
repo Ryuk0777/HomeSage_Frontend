@@ -170,7 +170,7 @@ const Footer = ({ cursorRef, aboutRef, name, profileName, info, profilePic, soci
       end: "top 70%",
       onEnter: scrambleAnimation,
       once: true,
-      markers: true,
+      markers: false,
     })
 
 
