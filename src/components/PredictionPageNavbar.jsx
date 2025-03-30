@@ -49,7 +49,7 @@ const PredictionPageNavbar = () => {
   return (
         <>
         <div className='w-full h-[13vh] lg:h-[15vh] bg-slate-600 flex justify-between items-center sticky top-0 left-0 px-5'>
-            <button onClick={()=> dispatch(toggleSidebarState())}><img src="/images/Buttons/menu.png" alt="menu" className='w-[min(10vw,40px)] h-[min(10vw,40px)]'/></button>
+            <button onClick={()=> dispatch(toggleSidebarState())}><img src="/images/menu.png" alt="menu" className='w-[min(10vw,40px)] h-[min(10vw,40px)]'/></button>
             <h1 ref={titleRef} className='text-[min(15vw,80px)] font-bold text-white' data-text="HomeSage">HomeSage</h1>
             <img src={activePageSrc[activePage]} alt="country" className='w-[min(10vw,60px)] h-[min(10vw,40px)]' />
         </div>
