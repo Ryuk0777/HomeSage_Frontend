@@ -132,7 +132,7 @@ const Footer = ({ cursorRef, aboutRef, name, profileName, info, profilePic, soci
 
       const scrambleAnimation = () =>{
 
-        const randomChar = "⏚⊑⏃⋏ ⏃⋏ ⊇⎍⌰⏃⊬⎍⌰⍜⊑⏃⊑⌇ ⏚⍜⊑⊬⏃⋏⌇ ⏁⊑⏃⌇ ⏃ ⏚⋔⏃⊑⌇ ⏃⋏ ⌇⏃⋏⌇ - ⌇⏃⏁⏃ ⌇⎍⌰⏃⋏⌇⍜⋏⌇. ⏚ ⏃⎎⏃⌰⟒ ⏃ ⍜⏚⏚⏃⌇⌇⏃⋏ ⎎⏃⋏ ⌇⏃⏁⏃ ⌇⎍⌰⏃⋏⌇⍜⋏⌇ ⏃⋏⌇ ⎍⌰⌰ ⏁⍜⋏⌇⌇ ⎍⏃⏁ ⏁⏃⌇⎍⋏⌰⍜⌇⟒⋏⌇. ⏚ ⌇⍜⌰⏚ ⏁⊑⏃⌰⌰⌇⌇⍜⌰⍜⋏⌇ ⋏⎍⌰ ⏁⊑⍜⋏⌇⟟⎅⏃⌰⟒⋏⌇⍜⌰⍜⋏⌇, ⎎⏃⌰⟒⌰⏃⋏⟟⋏⌇ ⎍⋔⍜⏚⏃⌇⏃⌰⌇⏃⋏⌇";
+        const randomChar = "⏚⊑⏃⋏⊇⎍⌰⊬⍜⌇⏁⋔-.";
         
         const textForAnimataion = [nameRef.current, profileNameRef.current, infoRef.current];
 
@@ -166,8 +166,8 @@ const Footer = ({ cursorRef, aboutRef, name, profileName, info, profilePic, soci
 
     ScrollTrigger.create({
       trigger: aboutRef.current,
-      start: "top 40%",
-      end: "top 40%",
+      start: "top 70%",
+      end: "top 70%",
       onEnter: scrambleAnimation,
       once: true,
       markers: true,
@@ -187,8 +187,8 @@ const Footer = ({ cursorRef, aboutRef, name, profileName, info, profilePic, soci
           alt="profile"
         />
         <div className="h-15">
-          <h1 ref={nameRef} className="text-white text-[min(10vw,22px)]" data-text={name}>{name}</h1>
-          <h1 ref={profileNameRef} className="text-neutral-400 text-[min(7vw,17px)]" data-text={profileName} >{profileName}</h1>
+          <h1 ref={nameRef} className="text-white text-[min(10vw,22px)]" data-text={name}></h1>
+          <h1 ref={profileNameRef} className="text-neutral-400 text-[min(7vw,17px)]" data-text={profileName} ></h1>
         </div>
       </div>
       <p  ref={infoRef} className="text-white text-[min(5vw,25px)] text-center px-2 lg:text-left lg:px-3 mt-5" data-text={info}>

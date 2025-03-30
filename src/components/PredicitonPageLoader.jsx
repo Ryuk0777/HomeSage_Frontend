@@ -15,13 +15,11 @@ const PredicitonPageLoader = () => {
 
     const scrambleAnimation = () =>{
 
-        const randomChar = "⏚⊑⏃⋏ ⏃⋏ ⊇⎍⌰⏃⊬⎍⌰⍜⊑⏃⊑⌇ ⏚⍜⊑⊬⏃⋏⌇ ⏁⊑⏃⌇ ⏃ ⏚⋔⏃⊑⌇ ⏃⋏ ⌇⏃⋏⌇ - ⌇⏃⏁⏃ ⌇⎍⌰⏃⋏⌇⍜⋏⌇. ⏚ ⏃⎎⏃⌰⟒ ⏃ ⍜⏚⏚⏃⌇⌇⏃⋏ ⎎⏃⋏ ⌇⏃⏁⏃ ⌇⎍⌰⏃⋏⌇⍜⋏⌇ ⏃⋏⌇ ⎍⌰⌰ ⏁⍜⋏⌇⌇ ⎍⏃⏁ ⏁⏃⌇⎍⋏⌰⍜⌇⟒⋏⌇. ⏚ ⌇⍜⌰⏚ ⏁⊑⏃⌰⌰⌇⌇⍜⌰⍜⋏⌇ ⋏⎍⌰ ⏁⊑⍜⋏⌇⟟⎅⏃⌰⟒⋏⌇⍜⌰⍜⋏⌇, ⎎⏃⌰⟒⌰⏃⋏⟟⋏⌇ ⎍⋔⍜⏚⏃⌇⏃⌰⌇⏃⋏⌇";
+        const randomChar = "⏚⊑⏃⋏⊇⎍⌰⊬⍜⌇⏁⋔-.";
 
         const h1Tag = loaderRef.current.querySelector("h1");
 
         const originalText =  h1Tag.dataset.text;
-    
-        console.log("h1Tag:", originalText);
     
         let iteration = 0;
 
@@ -56,6 +54,11 @@ const PredicitonPageLoader = () => {
             zIndex: 0,
             onStart: scrambleAnimation
             })
+          .to(loaderRef.current,{
+            duration: 1,
+            className: "hidden",
+            ease: "power2.out",
+          })
 
 
     }, [loaderRef.current]);
@@ -63,9 +66,9 @@ const PredicitonPageLoader = () => {
   return (
     <div
       ref={loaderRef}
-      className="w-full h-full bg-slate-300 flex justify-center items-center"
+      className="w-screen h-screen fixed top-0 left-0 bg-slate-300 flex justify-center items-center font-karantina z-10"
     >
-      <h1 className="text-[min(20vw,200px)] font-bold text-white" data-text="HomeSage">HomeSage</h1>
+      <h1 className="text-[min(20vw,200px)] font-bold text-white" data-text="HomeSage"></h1>
     </div>
   );
 };
