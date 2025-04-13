@@ -163,6 +163,26 @@ const getAmenities = () => {
     }
   }
 
+  // useEffect(()=>{
+  //   inputData.Amenities.forEach((items)=>{
+  //     if(items === "Clubhouse"){
+
+  //   }
+  //   if(items === "Garden"){
+  //       result.push("Garden");
+  //   }
+  //   if(items === "Gym"){
+  //       result.push("Gym");
+  //   }
+  //   if(items === "Playground"){
+  //       result.push("Playground");
+  //   }
+  //   if(items === "Pool"){
+  //       result.push("Pool");
+  //   }
+  //   })
+  // },[])
+
   return ( 
     <div ref={pageRef} className='w-full h-full bg-emreald-200 overflow-y-scroll'>
       <div className='w-full h-full lg:grid lg:grid-cols-5 lg:grid-rows-5 p-5'>
@@ -257,6 +277,7 @@ const getAmenities = () => {
       <div className='w-full p-5'>
         <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Public Transport Accessibility</label>
         <select ref={publicTransportAccessibilityRef} id="countries" defaultValue={inputData.Public_Transport_Accessibility} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+          <option value="null">Select Option</option>
           <option value="Low">Low</option>
           <option value="Medium">Medium</option>
           <option value="High">High</option>

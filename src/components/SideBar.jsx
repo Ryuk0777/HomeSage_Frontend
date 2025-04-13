@@ -35,7 +35,7 @@ const SideBar = () => {
 
   return (
     <>
-      <div ref={sidebarRef} className="bg-white h-[85vh] w-[60vw] lg:w-[18vw] fixed left-0 top-[13vh] lg:top-[15vh] font-karantina px-0.5">
+      <div ref={sidebarRef} className="bg-white h-[85vh] w-[60vw] lg:w-[18vw] fixed left-0 top-[13vh] lg:top-[15vh] font-karantina px-0.5 z-50">
         <CountryTab title="India" src="https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/383px-Flag_of_India.svg.png"/>
         <CountryTab title="Malaysia" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Flag_of_Malaysia.svg/383px-Flag_of_Malaysia.svg.png"/>
         <CountryTab title="America" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Flag_of_the_United_States_%28Pantone%29.svg/383px-Flag_of_the_United_States_%28Pantone%29.svg.png"/>

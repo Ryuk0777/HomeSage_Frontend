@@ -1,6 +1,8 @@
 import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
-import { navigatToPage, toggleSidebarState, setData } from "../redux/predicitonPage/predictionPageSlice";
+import {toggleSidebarState} from "../redux/sidebar/siderbarSlice";
+import { navigatToPage,  } from "../redux/predicitonPage/predictionPageSlice";
+import { setData } from '../redux/result/resultSlice';
 
 
 const CountryTab = ({src, title}) => {
