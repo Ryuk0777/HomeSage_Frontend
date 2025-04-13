@@ -24,7 +24,6 @@ const LandingPage = (props) => {
   const tech_usedRef = useRef();
 
   const aboutRef1 = useRef();
-  const aboutRef2 = useRef();
 
   const reasonsRef = useRef();
 
@@ -86,7 +85,7 @@ const LandingPage = (props) => {
           homeRef={homeRef}
           tech_usedRef={tech_usedRef}
           cursorRef={cursorRef}
-          aboutRef={aboutRef2}
+          aboutRef={aboutRef1}
         />
         <div ref={mainRef} className="h-auto w-full">
           <Landing1 reasonsRef={reasonsRef} cursorRef={cursorRef} />
@@ -113,27 +112,6 @@ const LandingPage = (props) => {
                   "https://www.linkedin.com/in/farhan-shaikh-7a6907250/",
                 reddit: "https://www.reddit.com/user/OfficeParking8993/",
                 twitter: "https://x.com/farhan232004"
-              }}
-              animationStart={"top 73%"}
-            />
-            <div className="bg-white h-[1px]"></div>
-            <Footer
-              cursorRef={cursorRef}
-              aboutRef={aboutRef2}
-              profilePic={
-                "https://avatars.githubusercontent.com/u/137673662?v=4"
-              }
-              name={"Vinayak Vathare"}
-              profileName={"VathareVinayak"}
-              info={
-                "​As a Data Scientist and Machine Learning enthusiast, I specialize in converting raw data into actionable insights using advanced analytics and deep learning techniques. My expertise includes data visualization, database management, and backend development integrating deep learning models. Actively participating in hackathons and industry projects, I collaborate with professionals to drive innovation and deliver impactful data-driven solutions"
-              }
-              socialLinks={{
-                // discord: "",
-                github: "https://github.com/VathareVinayak",
-                linkedIn:
-                  "https://www.linkedin.com/in/vinayak-vathare-4bb135279/",
-                // twitter: ""
               }}
               animationStart={"top 73%"}
             />

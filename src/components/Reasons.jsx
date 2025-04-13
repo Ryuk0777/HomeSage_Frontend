@@ -28,7 +28,8 @@ const Reasons = ({ ref }) => {
             start: "top 20%",
             end: "top top",
             markers: false,
-            toggleActions: "play none reset none"
+            toggleActions: "play none reset none",
+            snap:1,
           }
         });
 
@@ -60,7 +61,8 @@ const Reasons = ({ ref }) => {
             start: "top top",
             end: "top top",
             markers: false,
-            toggleActions: "play none reset none"
+            toggleActions: "play none reset none",
+            snap:1,
           }
         });
 

@@ -78,7 +78,7 @@ const Navbar = ({homeRef, tech_usedRef, cursorRef, aboutRef}) => {
                 <button 
                     className="relative cursor-none"
                     onClick={() => handleScrollTo(aboutRef.current)}>
-                    About Us
+                    About Me
                 <span className="absolute left-0 bottom-0 w-full h-[2px] bg-black scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
                 </button>
             </div>

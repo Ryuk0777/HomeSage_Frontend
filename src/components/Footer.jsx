@@ -134,7 +134,7 @@ const Footer = ({ cursorRef, aboutRef, name, profileName, info, profilePic, soci
 
         const randomChar = "⏚⊑⏃⋏⊇⎍⌰⊬⍜⌇⏁⋔-.";
         
-        const textForAnimataion = [nameRef.current, profileNameRef.current, infoRef.current];
+        const textForAnimataion = [nameRef.current, profileNameRef.current];
 
         textForAnimataion.forEach(element =>{
           
@@ -157,7 +157,7 @@ const Footer = ({ cursorRef, aboutRef, name, profileName, info, profilePic, soci
             }
         
             iteration += 1/3;
-        }, 70)
+        }, 50)
 
 
         })
@@ -166,8 +166,8 @@ const Footer = ({ cursorRef, aboutRef, name, profileName, info, profilePic, soci
 
     ScrollTrigger.create({
       trigger: aboutRef.current,
-      start: "top 70%",
-      end: "top 70%",
+      start: "top bottom",
+      end: "top bottom",
       onEnter: scrambleAnimation,
       once: true,
       markers: false,

@@ -1,8 +1,41 @@
 import React, {useRef, useEffect, useState} from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import axios from 'axios'
+import { data } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { setResultMsg, setResultStatus, setShowResult, setShowLoader, setData } from '../redux/result/resultSlice';
 
 const IndiaPredicitonPage = () => {
+
+  const dispatch = useDispatch();
+  const inputData = useSelector(state => state.result.data);
+
+  const bhkRef = useRef();
+  const sizeRef = useRef();
+  const priceSizeRef = useRef();
+  const furnishedRef = useRef();
+  const stateRef = useRef();
+  const cityRef = useRef();
+  const floorNoRef = useRef();
+  const totalFloorsRef = useRef();
+  const ageofPropertyRef = useRef();
+  const publicTransportAccessibilityRef = useRef();
+  const nearbySchoolsRef = useRef();
+  const nearbyHospitalsRef = useRef();
+  const parkingSpaceRef = useRef();
+  const propertyTypeRef = useRef();
+  const availabilityStatusRef = useRef();
+  const securityRef = useRef();
+  const ownerTypeRef = useRef();
+
+  const clubhouseRef = useRef();
+  const gardenRef = useRef();
+  const gymRef = useRef();
+  const playgroundRef = useRef();
+  const poolRef = useRef();
+
+
 
   const state = ["Tamil Nadu", "Maharashtra", "Punjab", "Rajasthan", "West Bengal", 
     "Chhattisgarh", "Delhi", "Jharkhand", "Telangana", "Karnataka", 
@@ -20,16 +53,10 @@ const city = ["Chennai", "Coimbatore", "Pune", "Nagpur", "Mumbai", "Ludhiana",
 
   const pageRef = useRef();
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
-  const [clubhouseState, setClubhouseState] = useState(false);
+  const [clubhouseState, setClubhouseState] = useState(true);
   const [gardenState, setGardenState] = useState(false);
   const [gymState, setGymState] = useState(false);
-  const [playgroundState, setPlaygroundState] = useState(true);
+  const [playgroundState, setPlaygroundState] = useState(false);
   const [poolState, setPoolState] = useState(false);
 
 
@@ -85,26 +112,77 @@ const getAmenities = () => {
     })
   })
 
+  const handleSubmitForm = async () => {
+
+    dispatch(setShowLoader(true));
+
+    const data = {
+      BHK: parseFloat(bhkRef.current.value),
+      Size_in_SqFt: parseFloat(sizeRef.current.value),
+      Price_per_SqFt: parseFloat(priceSizeRef.current.value),
+      Furnished_Status: furnishedRef.current.value,
+      Floor_No: parseFloat(floorNoRef.current.value),
+      Total_Floors: parseFloat(totalFloorsRef.current.value),
+      Age_of_Property: parseFloat(ageofPropertyRef.current.value),
+      Nearby_Schools: parseFloat(nearbySchoolsRef.current.value),
+      Nearby_Hospitals: parseFloat(nearbyHospitalsRef.current.value),
+      Public_Transport_Accessibility: publicTransportAccessibilityRef.current.value,
+      Parking_Space: parkingSpaceRef.current.value,
+      Security: securityRef.current.value,
+      Availability_Status: availabilityStatusRef.current.value,
+      state: stateRef.current.value,
+      city: cityRef.current.value,
+      property_Type: propertyTypeRef.current.value,
+      owner_Type: ownerTypeRef.current.value,
+      Amenities: getAmenities(),
+    }
+
+    dispatch(setData(data));
+
+    try{
+      const response = await axios.post("https://homesage-api.onrender.com/india/predict",data);
+      console.log("response data:",response.data);
+      dispatch(setResultStatus(true));
+      dispatch(setResultMsg(`₹ ${response.data.price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`));
+      dispatch(setShowResult(true));
+    } catch (error) {
+      dispatch(setResultStatus(false));
+      console.log(error);
+      if(error.response.status == 422){
+        dispatch(setResultMsg(`${error.response.data.detail[0].ctx}  ${error.response.data.detail[0].input}`));
+        dispatch(setShowResult(true));
+      } else if(error.response.status == 400){
+        console.log("Api call Failed:", error.response.data.detail["Invalid Request"]);
+        dispatch(setResultMsg(error.response.data.detail["Invalid Request"]));
+        dispatch(setShowResult(true));
+      }
+      else{
+        dispatch(setResultMsg("Something Went Wrong"));
+        dispatch(setShowResult(true));
+      }
+    }
+  }
+
   return ( 
-    <div ref={pageRef} className='w-full h-full bg-slate-200 overflow-y-scroll'>
+    <div ref={pageRef} className='w-full h-full bg-emreald-200 overflow-y-scroll'>
       <div className='w-full h-full lg:grid lg:grid-cols-5 lg:grid-rows-5 p-5'>
       <div className='w-full p-5'>
-        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">BHK</label>
-        <input type="number" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="BHK" required />        
+        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">BHK</label>
+        <input ref={bhkRef} defaultValue={inputData.BHK} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="BHK" required />        
       </div>
       <div className='w-full p-5'>
-        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Size in Sq.ft</label>
-        <input type="number" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Size in Sq.ft" required />        
+        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Size in Sq.ft</label>
+        <input ref={sizeRef} defaultValue={inputData.Size_in_SqFt} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Size in Sq.ft" required />        
       </div>
       <div className='w-full p-5'>
-        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Price per SqFt</label>
-        <input type="number" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Price per SqFt" required />        
+        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Price per SqFt</label>
+        <input ref={priceSizeRef}  defaultValue={inputData.Price_per_SqFt} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Price per SqFt" required />        
       </div>
 
       <div className='w-full p-5'>
-        <label for="countries" class="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Furnished Status</label>
-        <select id="countries" defaultValue={null} class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
-          <option value={null} >Choose a Status</option>
+        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Furnished Status</label>
+        <select ref={furnishedRef}  id="countries" defaultValue={inputData.Furnished_Status} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+          <option value={"null"} >Choose a Status</option>
           <option value="Unfurnished">Unfurnished</option>
           <option value="Semi-furnished">Semi furnished</option>
           <option value="Furnished">Furnished</option>
@@ -112,128 +190,128 @@ const getAmenities = () => {
       </div>  
 
       <div className='w-full p-5'>
-        <label for="countries" class="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">State</label>
-        <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
-        <option value={null} >Choose a state</option>
+        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">State</label>
+        <select ref={stateRef} defaultValue={inputData.state}  id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+        <option value={"null"} >Choose a state</option>
         {state.map(state => <option key={state} value={state}>{state}</option>)}
         </select>
       </div>  
 
       <div className='w-full p-5'>
-        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Floor No</label>
-        <input type="number" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Floor No" required />        
+        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Floor No</label>
+        <input ref={floorNoRef} defaultValue={inputData.Floor_No} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Floor No" required />        
       </div>
       <div className='w-full p-5'>
-        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Total Floors</label>
-        <input type="number" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Total Floors" required />        
+        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Total Floors</label>
+        <input ref={totalFloorsRef} defaultValue={inputData.Total_Floors} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Total Floors" required />        
       </div>
       <div className='w-full p-5'>
-        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Age of Property</label>
-        <input type="number" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Age of Property" required />        
+        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Age of Property</label>
+        <input ref={ageofPropertyRef}  defaultValue={inputData.Age_of_Property} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Age of Property" required />        
       </div>
 
       <div className='w-full p-5'>
-        <label for="countries" class="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Furnished Status</label>
-        <select id="countries" defaultValue={null} class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
-          <option value={null} >Choose the Accessibility</option>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
+        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Availability Status</label>
+        <select ref={availabilityStatusRef} id="countries" defaultValue={inputData.Availability_Status} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+          <option value={"null"} >Choose the Availability</option>
+          <option value="Under-Construction">"Under Construction"</option>
+          <option value="Ready-to-Move">Ready to Move</option>
           <option value="High">High</option>
         </select>
       </div>  
 
       <div className='w-full p-5'>
-        <label for="countries" class="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">State</label>
-        <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
-        <option value={null} >Choose a city</option>
+        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">City</label>
+        <select ref={cityRef} defaultValue={inputData.city} id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+        <option value={"null"} >Choose a city</option>
         {city.map(city => <option key={city} value={city}>{city}</option>)}
         </select>
       </div>  
 
       <div className='w-full p-5'>
-        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Nearby Schools</label>
-        <input type="number" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Nearby Schools" required />        
+        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Nearby Schools</label>
+        <input ref={nearbySchoolsRef} defaultValue={inputData.Nearby_Schools} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Nearby Schools" required />        
       </div>
       <div className='w-full p-5'>
-        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Nearby Hospitals</label>
-        <input type="number" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Nearby Hospitals" required />        
+        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Nearby Hospitals</label>
+        <input ref={nearbyHospitalsRef} defaultValue={inputData.Nearby_Hospitals} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Nearby Hospitals" required />        
       </div>
 
       <div className='w-full p-5'>
-        <label for="countries" class="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Parking Space</label>
-        <select id="countries" defaultValue={null} class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
-          <option value={null} >Choose</option>
+        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Parking Space</label>
+        <select ref={parkingSpaceRef} id="countries" defaultValue={inputData.Parking_Space} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+          <option value={"null"} >Choose</option>
           <option value="No">No</option> 
           <option value="Yes">Yes</option>
         </select>
       </div>  
       <div className='w-full p-5'>
-        <label for="countries" class="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Property Type</label>
-        <select id="countries" defaultValue={null} class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
-          <option value={null} >Choose a Property Type</option>
+        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Property Type</label>
+        <select ref={propertyTypeRef} id="countries" defaultValue={inputData.property_Type} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+          <option value={"null"} >Choose a Property Type</option>
           <option value="Apartment">Apartment</option>
           <option value="Independent-House">Independent House</option>
           <option value="Villa">Villa</option>
         </select>
       </div>  
       <div className='w-full p-5'>
-        <label for="countries" class="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Availability Status</label>
-        <select id="countries" defaultValue={null} class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
-          <option value={null} >Choose the Status</option>
-          <option value="Under-Construction">Under Construction</option>
-          <option value="Ready-to-Move">Ready to Move</option>
+        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Public Transport Accessibility</label>
+        <select ref={publicTransportAccessibilityRef} id="countries" defaultValue={inputData.Public_Transport_Accessibility} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
         </select>
       </div>  
       <div className='w-full p-5'>
-        <label for="countries" class="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Security</label>
-        <select id="countries" defaultValue={null} class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
-          <option value={null} >Choose</option>
+        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Security</label>
+        <select ref={securityRef} id="countries" defaultValue={inputData.Security} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+          <option value={"null"} >Choose</option>
           <option value="No">No</option>
           <option value="Yes">Yes</option>
         </select>
       </div>  
       <div className='w-full p-5'>
-        <label for="countries" class="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Owner Type</label>
-        <select id="countries" defaultValue={null} class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
-          <option value={null} >Choose Owner Type</option>
+        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Owner Type</label>
+        <select ref={ownerTypeRef} id="countries" defaultValue={inputData.owner_Type} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+          <option value={"null"} >Choose Owner Type</option>
           <option value="Builder">Builder</option>
           <option value="Owner">Owner</option>
           <option value="Broker">Broker</option>
         </select>
       </div> 
 
-      <div class="w-full flex items-end mb-4">
+      <div className="w-full flex items-end mb-4">
         <div className='w-full h-10 flex justify-center items-center'>
-          <label for="default-checkbox" class="ms-2 text-[min(5vw,35px)] font-medium text-gray-900">Amenities</label>
+          <label htmlFor="default-checkbox" className="ms-2 text-[min(5vw,35px)] font-medium text-gray-900">Amenities</label>
         </div>
         <div className='w-full h-10 flex justify-center items-center'>
-          <input id="default-checkbox" type="checkbox" value="" class=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
-          <label for="default-checkbox" class="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Clubhouse</label>
-        </div>
-      </div>
-      <div class="w-full flex items-end mb-4">
-        <div className='w-full h-10 flex justify-center items-center'>
-          <input id="default-checkbox" type="checkbox" value="" class=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
-          <label for="default-checkbox" class="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Garden</label>
-        </div>
-        <div className='w-full h-10 flex justify-center items-center'>
-          <input id="default-checkbox" type="checkbox" value="" class=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
-          <label for="default-checkbox" class="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Gym</label>
+          <input onChange={handleCheckboxChange} defaultChecked={clubhouseState} id="Clubhouse" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
+          <label htmlFor="default-checkbox" className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Clubhouse</label>
         </div>
       </div>
-      <div class="w-full flex items-end mb-4">
+      <div className="w-full flex items-end mb-4">
         <div className='w-full h-10 flex justify-center items-center'>
-          <input id="default-checkbox" type="checkbox" value="" class=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
-          <label for="default-checkbox" class="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Playground</label>
+          <input onChange={handleCheckboxChange} id="Garden" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
+          <label htmlFor="default-checkbox" className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Garden</label>
         </div>
         <div className='w-full h-10 flex justify-center items-center'>
-          <input id="default-checkbox" type="checkbox" value="" class=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
-          <label for="default-checkbox" class="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Pool</label>
+          <input onChange={handleCheckboxChange} id="Gym" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
+          <label htmlFor="default-checkbox" className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Gym</label>
+        </div>
+      </div>
+      <div className="w-full flex items-end mb-4">
+        <div className='w-full h-10 flex justify-center items-center'>
+          <input onChange={handleCheckboxChange} id="Playground" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
+          <label htmlFor="default-checkbox" className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Playground</label>
+        </div>
+        <div className='w-full h-10 flex justify-center items-center'>
+          <input onChange={handleCheckboxChange} id="Pool" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
+          <label htmlFor="default-checkbox" className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Pool</label>
         </div>
       </div>
 
       <div className='w-full h-auto flex justify-center items-center col-span-5'>
-        <button className='w-60 h-13 bg-emerald-300 rounded-xl text-[min(10vw,35px)] hover:bg-emerald-400'>Predict</button>
+        <button onClick={handleSubmitForm} className='w-60 h-13 bg-emerald-300 rounded-xl text-[min(10vw,35px)] hover:bg-emerald-400'>Predict</button>
       </div>
       
       </div>
@@ -244,25 +322,3 @@ const getAmenities = () => {
 }
 
 export default IndiaPredicitonPage
-
-
-
-
-
-
-
-{/* <div className='w-full'>
-<label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Price per SqFt</label>
-<input type="number" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Price per SqFt" required />        
-</div> */}
-
-{/* <div className='w-full'>
-<label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Select an option</label>
-<select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-  <option selected>Choose a country</option>
-  <option value="US">United States</option>
-  <option value="CA">Canada</option>
-  <option value="FR">France</option>
-  <option value="DE">Germany</option>
-</select>
-</div>   */}
