@@ -27,6 +27,8 @@ const LandingPage = (props) => {
 
   const reasonsRef = useRef();
 
+  const magRef = useRef();
+
   let holdTimeout = useRef(null);
 
   const handleOpacityChange = (opacity) => {
@@ -88,8 +90,8 @@ const LandingPage = (props) => {
           aboutRef={aboutRef1}
         />
         <div ref={mainRef} className="h-auto w-full">
-          <Landing1 reasonsRef={reasonsRef} cursorRef={cursorRef} />
-          <Message />
+          <Landing1 reasonsRef={reasonsRef} cursorRef={cursorRef} magRef={magRef}/>
+          <Message magRef={magRef}/>
           <div className="h-auto w-full absolute top-0 left-0 z-10">
             <div ref={homeRef} className="h-screen"></div>
             <Reasons ref={reasonsRef} />

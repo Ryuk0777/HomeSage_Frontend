@@ -53,18 +53,15 @@ const MalaysiaPredictionPage = () => {
 
     try{
       const response = await axios.post("https://homesage-api.onrender.com/malaysia/predict",data);
-      console.log("response data:",response.data);
       dispatch(setResultStatus(true));
       dispatch(setResultMsg(`RM ${response.data.price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`));
       dispatch(setShowResult(true));
     } catch (error) {
       dispatch(setResultStatus(false));
-      console.log(error);
       if(error.response.status == 422){
         dispatch(setResultMsg(`${error.response.data.detail[0].ctx}  ${error.response.data.detail[0].input}`));
         dispatch(setShowResult(true));
       } else if(error.response.status == 400){
-        console.log("Api call Failed:", error.response.data.detail["Invalid Request"]);
         dispatch(setResultMsg(error.response.data.detail["Invalid Request"]));
         dispatch(setShowResult(true));
       }
@@ -76,33 +73,33 @@ const MalaysiaPredictionPage = () => {
   }
 
   return (
-    <div ref={pageRef} className='w-full h-full overflow-y-scroll'>
+    <div ref={pageRef} className='w-full h-full overflow-y-scroll z-0'>
        <div className='w-full h-full lg:grid lg:grid-cols-3 lg:grid-rows-4 p-5'>
 
         <div className='w-full p-5'>
-          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Rooms</label>
-          <input ref={roomsRef} defaultValue={inputData.rooms} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Rooms" required />        
+          <label htmlFor="Rooms" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Rooms</label>
+          <input ref={roomsRef} defaultValue={inputData.rooms} type="number" id="Rooms" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Rooms" required />        
         </div>
         <div className='w-full p-5'>
-          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Bathrooms</label>
-          <input ref={bathroomsRef} defaultValue={inputData.bathrooms} type="number"  id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Bathrooms" required />        
+          <label htmlFor="Bathrooms" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Bathrooms</label>
+          <input ref={bathroomsRef} defaultValue={inputData.bathrooms} type="number"  id="Bathrooms" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Bathrooms" required />        
         </div>
         <div className='w-full p-5'>
-          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Car Parking</label>
-          <input ref={carParkingRef} defaultValue={inputData.car_Parks} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Car Parking" required />        
+          <label htmlFor="Parking" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Car Parking</label>
+          <input ref={carParkingRef} defaultValue={inputData.car_Parks} type="number" id="Parking" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Car Parking" required />        
         </div>
         <div className='w-full p-5'>
-          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Size in sq.ft</label>
-          <input ref={sizeInSqftRef} defaultValue={inputData.size_in_sq_ft} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Size in sq.ft" required />        
+          <label htmlFor="Size" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Size in sq.ft</label>
+          <input ref={sizeInSqftRef} defaultValue={inputData.size_in_sq_ft} type="number" id="Size" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Size in sq.ft" required />        
         </div>
         <div className='w-full p-5'>
-          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Price per sq.ft</label>
-          <input ref={pricePerSqftRef} defaultValue={inputData.price_per_sqft} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Price per sq.ft" required />        
+          <label htmlFor="PriceSize" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Price per sq.ft</label>
+          <input ref={pricePerSqftRef} defaultValue={inputData.price_per_sqft} type="number" id="PriceSize" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Price per sq.ft" required />        
         </div>
 
         <div className='w-full p-5'>
-        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Property Type</label>
-        <select ref={propertyTypeRef} id="countries" defaultValue={inputData.property_type} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+        <label htmlFor="Property" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Property Type</label>
+        <select ref={propertyTypeRef} id="Property" defaultValue={inputData.property_type} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
           <option value={"null"} >Choose Owner Type</option>
           {property_Types.map((type, index) => (
                         <option key={index} value={type}>{type}</option>
@@ -110,8 +107,8 @@ const MalaysiaPredictionPage = () => {
         </select>
         </div> 
         <div className='w-full p-5'>
-        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Furnishing</label>
-        <select ref={furnishingRef} id="countries" defaultValue={inputData.furnishing} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+        <label htmlFor="Furnishing" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Furnishing</label>
+        <select ref={furnishingRef} id="Furnishing" defaultValue={inputData.furnishing} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
           <option value={"null"} >Choose the Furnishing</option>
           <option value="Fully Furnished">Fully Furnished</option>
           <option value="Partly Furnished">Partly Furnished</option>
@@ -130,3 +127,4 @@ const MalaysiaPredictionPage = () => {
 }
 
 export default MalaysiaPredictionPage
+

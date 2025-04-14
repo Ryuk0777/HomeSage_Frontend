@@ -49,18 +49,15 @@ const AmericaPredictionPage = () => {
 
     try{
       const response = await axios.post("https://homesage-api.onrender.com/america/predict",data);
-      console.log("response data:",response.data);
       dispatch(setResultStatus(true));
       dispatch(setResultMsg(`$ ${response.data.price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`));
       dispatch(setShowResult(true));
     } catch (error) {
       dispatch(setResultStatus(false));
-      console.log(error);
       if(error.response.status == 422){
         dispatch(setResultMsg(`${error.response.data.detail[0].ctx}  ${error.response.data.detail[0].input}`));
         dispatch(setShowResult(true));
       } else if(error.response.status == 400){
-        console.log("Api call Failed:", error.response.data.detail["Invalid Request"]);
         dispatch(setResultMsg(error.response.data.detail["Invalid Request"]));
         dispatch(setShowResult(true));
       }
@@ -72,36 +69,36 @@ const AmericaPredictionPage = () => {
   }
 
   return (
-    <div ref={pageRef} className='w-full h-full  overflow-y-scroll'>
+    <div ref={pageRef} className='w-full h-full  overflow-y-scroll z-0'>
        <div className='w-full h-full lg:grid lg:grid-cols-3 lg:grid-rows-4 p-5'>
 
         <div className='w-full p-5'>
-          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Zip Code</label>
-          <input ref={zipCodeRef} defaultValue={inputData.Zip_Code} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Zip Code" required />        
+          <label htmlFor="ZipCode" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Zip Code</label>
+          <input ref={zipCodeRef} defaultValue={inputData.Zip_Code} type="number" id="ZipCode" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Zip Code" required />        
         </div>
         <div className='w-full p-5'>
-          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Bedrooms</label>
-          <input ref={bedroomsRef} defaultValue={inputData.Beds} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Bedrooms" required />        
+          <label htmlFor="Bedrooms" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Bedrooms</label>
+          <input ref={bedroomsRef} defaultValue={inputData.Beds} type="number" id="Bedrooms" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Bedrooms" required />        
         </div>
         <div className='w-full p-5'>
-          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Bathrooms</label>
-          <input ref={bathroomsRef} defaultValue={inputData.Baths} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Bathrooms" required />        
+          <label htmlFor="Bathrooms" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Bathrooms</label>
+          <input ref={bathroomsRef} defaultValue={inputData.Baths} type="number" id="Bathrooms" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Bathrooms" required />        
         </div>
         <div className='w-full p-5'>
-          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Living Space</label>
-          <input ref={livingSpaceRef} defaultValue={inputData.Living_Space} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Living Space" required />        
+          <label htmlFor="LivingSpace" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Living Space</label>
+          <input ref={livingSpaceRef} defaultValue={inputData.Living_Space} type="number" id="LivingSpace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Living Space" required />        
         </div>
         <div className='w-full p-5'>
-          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Zip Code Population</label>
-          <input ref={zipCodePopulationRef} defaultValue={inputData.Zip_Code_Population} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Zip Code Population" required />        
+          <label htmlFor="ZipCodePopulation" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Zip Code Population</label>
+          <input ref={zipCodePopulationRef} defaultValue={inputData.Zip_Code_Population} type="number" id="ZipCodePopulation" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Zip Code Population" required />        
         </div>
         <div className='w-full p-5'>
-          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Zip Code Density</label>
-          <input ref={zipCodeDensityRef} defaultValue={inputData.Zip_Code_Density} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Zip Code Density" required />        
+          <label htmlFor="ZipCodeDensity" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Zip Code Density</label>
+          <input ref={zipCodeDensityRef} defaultValue={inputData.Zip_Code_Density} type="number" id="ZipCodeDensity" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Zip Code Density" required />        
         </div>
         <div className='w-full p-5'>
-          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Median Household Income</label>
-          <input ref={medianHouseholdIncomeRef} defaultValue={inputData.Median_Household_Income} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Median Household Income" required />        
+          <label htmlFor="MedianHouseholdIncome" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Median Household Income</label>
+          <input ref={medianHouseholdIncomeRef} defaultValue={inputData.Median_Household_Income} type="number" id="MedianHouseholdIncome" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Median Household Income" required />        
         </div>
 
         <div className='w-full h-auto flex justify-center items-center col-span-3'>

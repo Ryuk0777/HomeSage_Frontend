@@ -7,7 +7,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Landing1 = ({ reasonsRef, cursorRef }) => {
+const Landing1 = ({ reasonsRef, cursorRef, magRef }) => {
   const landing1Ref = useRef();
 
   const titleRef = useRef();
@@ -168,6 +168,15 @@ const Landing1 = ({ reasonsRef, cursorRef }) => {
   }, [cursorRef, buttonRef]);
 
 
+  const handleElementHidden = ()=>{
+    gsap.to([magRef.current],{
+      className: "hidden",
+      delay: 1,
+      duration:1,
+    })
+  }
+
+
   return (
     <>
     <div ref={landing1Ref} className="h-screen w-full text-center fixed top-0 left-0 z-20 flex flex-col justify-center items-center lg:justify-end">
@@ -195,6 +204,7 @@ const Landing1 = ({ reasonsRef, cursorRef }) => {
           <Link
             to="/Prediction"
             className="bg-white rounded-xl text-2xl  py-2.5 px-14 lg:px-20 lg:py-2.5 mt-7 cursor-none"
+            onClick={()=>{handleElementHidden}}
           >
             Get Started
           </Link>

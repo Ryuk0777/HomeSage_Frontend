@@ -4,6 +4,9 @@ import gsap from 'gsap'
 const Cursor = ({cursorRef}) => {
 
     useEffect(()=>{
+
+        if(!cursorRef) return;
+
         document.addEventListener("mousemove", (e)=>{
             e.preventDefault();
             gsap.to(cursorRef.current, {
@@ -38,7 +41,7 @@ const Cursor = ({cursorRef}) => {
             document.removeEventListener("mouseup", ()=>{})
         }
 
-    }, [])
+    }, [cursorRef])
 
   return (
     <div ref={cursorRef} className='lg:border-2 lg:w-6 lg:h-6 lg:bg-black lg:z-50 lg:fixed lg:rounded-full lg:pointer-events-none'>

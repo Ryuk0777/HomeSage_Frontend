@@ -11,6 +11,7 @@ const IndiaPredicitonPage = () => {
   const dispatch = useDispatch();
   const inputData = useSelector(state => state.result.data);
 
+
   const bhkRef = useRef();
   const sizeRef = useRef();
   const priceSizeRef = useRef();
@@ -141,18 +142,15 @@ const getAmenities = () => {
 
     try{
       const response = await axios.post("https://homesage-api.onrender.com/india/predict",data);
-      console.log("response data:",response.data);
       dispatch(setResultStatus(true));
       dispatch(setResultMsg(`₹ ${response.data.price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`));
       dispatch(setShowResult(true));
     } catch (error) {
       dispatch(setResultStatus(false));
-      console.log(error);
       if(error.response.status == 422){
         dispatch(setResultMsg(`${error.response.data.detail[0].ctx}  ${error.response.data.detail[0].input}`));
         dispatch(setShowResult(true));
       } else if(error.response.status == 400){
-        console.log("Api call Failed:", error.response.data.detail["Invalid Request"]);
         dispatch(setResultMsg(error.response.data.detail["Invalid Request"]));
         dispatch(setShowResult(true));
       }
@@ -184,24 +182,24 @@ const getAmenities = () => {
   // },[])
 
   return ( 
-    <div ref={pageRef} className='w-full h-full bg-emreald-200 overflow-y-scroll'>
+    <div ref={pageRef} className='w-full h-full bg-emreald-200 overflow-y-scroll z-0'>
       <div className='w-full h-full lg:grid lg:grid-cols-5 lg:grid-rows-5 p-5'>
       <div className='w-full p-5'>
-        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">BHK</label>
-        <input ref={bhkRef} defaultValue={inputData.BHK} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="BHK" required />        
+        <label htmlFor="BHK" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">BHK</label>
+        <input ref={bhkRef} defaultValue={inputData.BHK} type="number" id="BHK" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="BHK" />        
       </div>
       <div className='w-full p-5'>
-        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Size in Sq.ft</label>
-        <input ref={sizeRef} defaultValue={inputData.Size_in_SqFt} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Size in Sq.ft" required />        
+        <label htmlFor="Size" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Size in Sq.ft</label>
+        <input ref={sizeRef} defaultValue={inputData.Size_in_SqFt} type="number" id="Size" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Size in Sq.ft" />        
       </div>
       <div className='w-full p-5'>
-        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Price per SqFt</label>
-        <input ref={priceSizeRef}  defaultValue={inputData.Price_per_SqFt} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Price per SqFt" required />        
+        <label htmlFor="PricePerSize" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Price per SqFt</label>
+        <input ref={priceSizeRef}  defaultValue={inputData.Price_per_SqFt} type="number" id="PricePerSize" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Price per SqFt" />        
       </div>
 
       <div className='w-full p-5'>
-        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Furnished Status</label>
-        <select ref={furnishedRef}  id="countries" defaultValue={inputData.Furnished_Status} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+        <label htmlFor="Furnished Status" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Furnished Status</label>
+        <select ref={furnishedRef}  id="Furnished Status" defaultValue={inputData.Furnished_Status} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
           <option value={"null"} >Choose a Status</option>
           <option value="Unfurnished">Unfurnished</option>
           <option value="Semi-furnished">Semi furnished</option>
@@ -210,29 +208,29 @@ const getAmenities = () => {
       </div>  
 
       <div className='w-full p-5'>
-        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">State</label>
-        <select ref={stateRef} defaultValue={inputData.state}  id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+        <label htmlFor="state" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">State</label>
+        <select ref={stateRef} defaultValue={inputData.state}  id="state" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
         <option value={"null"} >Choose a state</option>
         {state.map(state => <option key={state} value={state}>{state}</option>)}
         </select>
       </div>  
 
       <div className='w-full p-5'>
-        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Floor No</label>
-        <input ref={floorNoRef} defaultValue={inputData.Floor_No} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Floor No" required />        
+        <label htmlFor="floor_No" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Floor No</label>
+        <input ref={floorNoRef} defaultValue={inputData.Floor_No} type="number" id="floor_No" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Floor No" />        
       </div>
       <div className='w-full p-5'>
-        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Total Floors</label>
-        <input ref={totalFloorsRef} defaultValue={inputData.Total_Floors} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Total Floors" required />        
+        <label htmlFor="total_Floors" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Total Floors</label>
+        <input ref={totalFloorsRef} defaultValue={inputData.Total_Floors} type="number" id="total_Floors" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Total Floors" />        
       </div>
       <div className='w-full p-5'>
-        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Age of Property</label>
-        <input ref={ageofPropertyRef}  defaultValue={inputData.Age_of_Property} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Age of Property" required />        
+        <label htmlFor="age_of_Property" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Age of Property</label>
+        <input ref={ageofPropertyRef}  defaultValue={inputData.Age_of_Property} type="number" id="age_of_Property" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Age of Property" />        
       </div>
 
       <div className='w-full p-5'>
-        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Availability Status</label>
-        <select ref={availabilityStatusRef} id="countries" defaultValue={inputData.Availability_Status} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+        <label htmlFor="availability_Status" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Availability Status</label>
+        <select ref={availabilityStatusRef} id="availability_Status" defaultValue={inputData.Availability_Status} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
           <option value={"null"} >Choose the Availability</option>
           <option value="Under-Construction">"Under Construction"</option>
           <option value="Ready-to-Move">Ready to Move</option>
@@ -241,33 +239,33 @@ const getAmenities = () => {
       </div>  
 
       <div className='w-full p-5'>
-        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">City</label>
-        <select ref={cityRef} defaultValue={inputData.city} id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+        <label htmlFor="city" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">City</label>
+        <select ref={cityRef} defaultValue={inputData.city} id="city" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
         <option value={"null"} >Choose a city</option>
         {city.map(city => <option key={city} value={city}>{city}</option>)}
         </select>
       </div>  
 
       <div className='w-full p-5'>
-        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Nearby Schools</label>
-        <input ref={nearbySchoolsRef} defaultValue={inputData.Nearby_Schools} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Nearby Schools" required />        
+        <label htmlFor="nearby_Schools" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Nearby Schools</label>
+        <input ref={nearbySchoolsRef} defaultValue={inputData.Nearby_Schools} type="number" id="nearby_Schools" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Nearby Schools" />        
       </div>
       <div className='w-full p-5'>
-        <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Nearby Hospitals</label>
-        <input ref={nearbyHospitalsRef} defaultValue={inputData.Nearby_Hospitals} type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Nearby Hospitals" required />        
+        <label htmlFor="nearby_Hospitals" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Nearby Hospitals</label>
+        <input ref={nearbyHospitalsRef} defaultValue={inputData.Nearby_Hospitals} type="number" id="nearby_Hospitals" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Nearby Hospitals" />        
       </div>
 
       <div className='w-full p-5'>
-        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Parking Space</label>
-        <select ref={parkingSpaceRef} id="countries" defaultValue={inputData.Parking_Space} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+        <label htmlFor="parking_Space" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Parking Space</label>
+        <select ref={parkingSpaceRef} id="parking_Space" defaultValue={inputData.Parking_Space} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
           <option value={"null"} >Choose</option>
           <option value="No">No</option> 
           <option value="Yes">Yes</option>
         </select>
       </div>  
       <div className='w-full p-5'>
-        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Property Type</label>
-        <select ref={propertyTypeRef} id="countries" defaultValue={inputData.property_Type} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+        <label htmlFor="property_Type" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Property Type</label>
+        <select ref={propertyTypeRef} id="property_Type" defaultValue={inputData.property_Type} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
           <option value={"null"} >Choose a Property Type</option>
           <option value="Apartment">Apartment</option>
           <option value="Independent-House">Independent House</option>
@@ -275,8 +273,8 @@ const getAmenities = () => {
         </select>
       </div>  
       <div className='w-full p-5'>
-        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Public Transport Accessibility</label>
-        <select ref={publicTransportAccessibilityRef} id="countries" defaultValue={inputData.Public_Transport_Accessibility} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+        <label htmlFor="public_Transport_Accessibility" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Public Transport Accessibility</label>
+        <select ref={publicTransportAccessibilityRef} id="public_Transport_Accessibility" defaultValue={inputData.Public_Transport_Accessibility} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
           <option value="null">Select Option</option>
           <option value="Low">Low</option>
           <option value="Medium">Medium</option>
@@ -284,16 +282,16 @@ const getAmenities = () => {
         </select>
       </div>  
       <div className='w-full p-5'>
-        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Security</label>
-        <select ref={securityRef} id="countries" defaultValue={inputData.Security} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+        <label htmlFor="security" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Security</label>
+        <select ref={securityRef} id="security" defaultValue={inputData.Security} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
           <option value={"null"} >Choose</option>
           <option value="No">No</option>
           <option value="Yes">Yes</option>
         </select>
       </div>  
       <div className='w-full p-5'>
-        <label htmlFor="countries" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Owner Type</label>
-        <select ref={ownerTypeRef} id="countries" defaultValue={inputData.owner_Type} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
+        <label htmlFor="owner_Type" className="block mb-2 font-medium text-gray-900 text-[min(5vw,20px)]">Owner Type</label>
+        <select ref={ownerTypeRef} id="owner_Type" defaultValue={inputData.owner_Type} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[min(5vw,20px)]">
           <option value={"null"} >Choose Owner Type</option>
           <option value="Builder">Builder</option>
           <option value="Owner">Owner</option>
@@ -302,32 +300,32 @@ const getAmenities = () => {
       </div> 
 
       <div className="w-full flex items-end mb-4">
-        <div className='w-full h-10 flex justify-center items-center'>
-          <label htmlFor="default-checkbox" className="ms-2 text-[min(5vw,35px)] font-medium text-gray-900">Amenities</label>
+        <div  className='w-full h-10 flex justify-center items-center'>
+          <h1 htmlFor="default-checkbox" id='amenities' className="ms-2 text-[min(5vw,35px)] font-medium text-gray-900">Amenities</h1>
         </div>
         <div className='w-full h-10 flex justify-center items-center'>
-          <input onChange={handleCheckboxChange} defaultChecked={clubhouseState} id="Clubhouse" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
-          <label htmlFor="default-checkbox" className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Clubhouse</label>
-        </div>
-      </div>
-      <div className="w-full flex items-end mb-4">
-        <div className='w-full h-10 flex justify-center items-center'>
-          <input onChange={handleCheckboxChange} id="Garden" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
-          <label htmlFor="default-checkbox" className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Garden</label>
-        </div>
-        <div className='w-full h-10 flex justify-center items-center'>
-          <input onChange={handleCheckboxChange} id="Gym" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
-          <label htmlFor="default-checkbox" className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Gym</label>
+          <input onChange={handleCheckboxChange} defaultChecked={clubhouseState} htmlFor="clubhouse" id="Clubhouse" type="checkbox" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
+          <h1 htmlFor="default-checkbox" id='clubhouse' className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Clubhouse</h1>
         </div>
       </div>
       <div className="w-full flex items-end mb-4">
         <div className='w-full h-10 flex justify-center items-center'>
-          <input onChange={handleCheckboxChange} id="Playground" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
-          <label htmlFor="default-checkbox" className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Playground</label>
+          <input onChange={handleCheckboxChange} defaultChecked={gardenState} htmlFor="garden" id="Garden" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
+          <h1 htmlFor="default-checkbox" id='garden' className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Garden</h1>
         </div>
         <div className='w-full h-10 flex justify-center items-center'>
-          <input onChange={handleCheckboxChange} id="Pool" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
-          <label htmlFor="default-checkbox" className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Pool</label>
+          <input onChange={handleCheckboxChange} defaultChecked={gymState} htmlFor="gym" id="Gym" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
+          <h1 htmlFor="default-checkbox" id='gym' className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Gym</h1>
+        </div>
+      </div>
+      <div className="w-full flex items-end mb-4">
+        <div className='w-full h-10 flex justify-center items-center'>
+          <input onChange={handleCheckboxChange} defaultChecked={playgroundState} htmlFor="playground" id="Playground" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
+          <h1 htmlFor="default-checkbox" id='playground' className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Playground</h1>
+        </div>
+        <div className='w-full h-10 flex justify-center items-center'>
+          <input onChange={handleCheckboxChange} defaultChecked={poolState} htmlFor="pool" id="Pool" type="checkbox" value="" className=" w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "/>
+          <h1 htmlFor="default-checkbox" id='pool' className="ms-2 text-[min(5vw,20px)] font-medium text-gray-900">Pool</h1>
         </div>
       </div>
 
