@@ -1,24 +1,23 @@
-import React, { Suspense, lazy, useEffect, useRef } from "react";
-import PropTypes, { element } from "prop-types";
+import React, { useEffect, useRef } from "react";
 import Model from "../components/Model";
 import Navbar from "../components/Navbar";
 import Landing1 from "../components/Landing1";
 import ExploreTag from "../components/ExploreTag";
 import gsap from "gsap";
-import Cursor from "../components/Cursor";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import Reasons from "../components/Reasons";
 import TechUsed from "../components/TechUsed";
 import Footer from "../components/Footer";
 import Message from "../components/Message";
+import Cursor from "../components/Cursor";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const LandingPage = (props) => {
-  const mainRef = useRef();
+const LandingPage = () => {
 
-  const cursorRef = useRef(null);
+  const mainRef = useRef();
+  const cursorRef = useRef();
 
   const homeRef = useRef();
   const tech_usedRef = useRef();
@@ -78,8 +77,8 @@ const LandingPage = (props) => {
   }, []);
 
   return (
-    <>
-      <Cursor cursorRef={cursorRef} />
+    <>    
+      <Cursor cursorRef={cursorRef}/>
       <ExploreTag reasonsRef={reasonsRef} />
       <Model className="h-full w-full fixed top-0 left-0 z-0" />
       <div className="font-karantina cursor-none">

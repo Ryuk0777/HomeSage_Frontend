@@ -48,17 +48,17 @@ const PredicitonPageLoader = () => {
     t1.call(scrambleAnimation)
         .to(loaderRef.current, {
             duration: 1,
-            opacity: 0,
+            height: 0,
             ease: "power2.out",
             delay: 3,
             zIndex: 0,
             onStart: scrambleAnimation
             })
-          .to(loaderRef.current,{
-            duration: 1,
-            className: "hidden",
-            ease: "power2.out",
-          })
+          // .to(loaderRef.current,{
+          //   duration: 1,
+          //   className: "hidden",
+          //   ease: "power2.out",
+          // })
 
 
     }, [loaderRef.current]);
@@ -66,7 +66,7 @@ const PredicitonPageLoader = () => {
   return (
     <div
       ref={loaderRef}
-      className="w-screen h-screen fixed top-0 left-0 bg-slate-300 flex justify-center items-center font-karantina z-10"
+      className="w-screen h-screen fixed top-0 left-0 bg-slate-300 flex justify-center items-center font-karantina z-10 overflow-hidden"
     >
       <h1 className="text-[min(20vw,200px)] font-bold text-white" data-text="HomeSage"></h1>
     </div>

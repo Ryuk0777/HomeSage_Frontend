@@ -186,7 +186,7 @@ const getAmenities = () => {
       <div className='w-full h-full lg:grid lg:grid-cols-5 lg:grid-rows-5 p-5'>
       <div className='w-full p-5'>
         <label htmlFor="BHK" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">BHK</label>
-        <input ref={bhkRef} defaultValue={inputData.BHK} type="number" id="BHK" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="BHK" />        
+        <input ref={bhkRef} defaultValue={inputData.BHK ?? " "} type="number" id="BHK" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="BHK" />        
       </div>
       <div className='w-full p-5'>
         <label htmlFor="Size" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">Size in Sq.ft</label>

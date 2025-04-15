@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 const Message = ({magRef}) => {
+
   const msg1Ref = useRef();
   const msg2Ref = useRef();
 
@@ -11,34 +12,35 @@ const Message = ({magRef}) => {
   const animationFrameIdRef = useRef(null);
 
   useEffect(() => {
-    const animation = (currentTime) => {
-      if (!lastTimeRef.current) lastTimeRef.current = currentTime;
-      let deltaTime = (currentTime - lastTimeRef.current) / 1000;
-      lastTimeRef.current = currentTime;
 
-      let speed = 10;
-      let movement = speed * deltaTime;
-
-      if (xPercentRef.current <= -100) {
-        xPercentRef.current = 0;
-      }
-
-      gsap.set(msg1Ref.current, { xPercent: xPercentRef.current });
-      gsap.set(msg2Ref.current, { xPercent: xPercentRef.current });
-
-      xPercentRef.current += movement * direction;
-
+      const animation = (currentTime) => {
+        if (!lastTimeRef.current) lastTimeRef.current = currentTime;
+        let deltaTime = (currentTime - lastTimeRef.current) / 1000;
+        lastTimeRef.current = currentTime;
+  
+        let speed = 10;
+        let movement = speed * deltaTime;
+  
+        if (xPercentRef.current <= -100) {
+          xPercentRef.current = 0;
+        }
+  
+        gsap.set(msg1Ref.current, { xPercent: xPercentRef.current });
+        gsap.set(msg2Ref.current, { xPercent: xPercentRef.current });
+  
+        xPercentRef.current += movement * direction;
+  
+        animationFrameIdRef.current = requestAnimationFrame(animation);
+      };
+  
       animationFrameIdRef.current = requestAnimationFrame(animation);
-    };
+  
+      return () => {
+        if (animationFrameIdRef.current) {
+          cancelAnimationFrame(animationFrameIdRef.current);
+        }
+      };
 
-    animationFrameIdRef.current = requestAnimationFrame(animation);
-
-    return () => {
-      // Cleanup to prevent memory leaks
-      if (animationFrameIdRef.current) {
-        cancelAnimationFrame(animationFrameIdRef.current);
-      }
-    };
   }, []);
 
   return (

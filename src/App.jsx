@@ -1,8 +1,11 @@
+import React, {useRef} from "react"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import LandingPage from "./pages/LandingPage"
 import Prediciton from "./pages/Prediciton"
 
+
 function App() {
+
 
   const router = createBrowserRouter([
     {
@@ -16,7 +19,11 @@ function App() {
   ])
 
 
-  return (<RouterProvider router={router}/>)
+  return (
+    <>
+      <RouterProvider router={router}/>
+    </>
+  )
 }
 
 export default App

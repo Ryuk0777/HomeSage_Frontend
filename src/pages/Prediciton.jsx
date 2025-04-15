@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useEffect, useRef} from 'react'
 import PredicitonPageLoader from '../components/PredicitonPageLoader'
 import PredictionPageNavbar from '../components/PredictionPageNavbar'
 import SideBar from '../components/SideBar'
@@ -37,6 +37,8 @@ const PredicitonPageFinal = () =>{
   const showLoader = useSelector(state => state.result.showLoader);
   const showResult = useSelector(state => state.result.showResult);
 
+
+
   if(!showResult && showLoader){
     return <Loader/>
   }
@@ -51,11 +53,8 @@ const PredicitonPageFinal = () =>{
 
 const Prediciton = () => {
 
-  const cursorRef= useRef();
-  
   return (
-    <div className='cursor-none'>
-    <Cursor cursorRef={cursorRef}/>
+    <div className=''>
     <SideBar />
     <div className='w-screen h-screen  font-karantina'>
       <PredictionPageNavbar />

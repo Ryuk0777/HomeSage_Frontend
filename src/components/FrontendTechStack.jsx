@@ -1,8 +1,11 @@
 import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useSelector } from "react-redux";
 
 const FrontendTechStack = () => {
+
+
   const frontendLogoRef1 = useRef();
   const frontendLogoRef2 = useRef();
   const animationRef = useRef(); // Stores requestAnimationFrame ID
@@ -16,27 +19,27 @@ const FrontendTechStack = () => {
   let mm = gsap.matchMedia();
 
   useEffect(() => {
-    mm.add(
-      {
-        isMobile: "(max-width: 1024px)",
-        isDesktop: "(min-width: 1025px)",
-      },
-      (context) => {
-        let { isDesktop, isMobile } = context.conditions;
-
-        if (isDesktop) {
-          cancelAnimationFrame(animationRef.current); // Cancel any existing animation
-          animationRef.current = requestAnimationFrame(desktopAnimation);
-        } else if (isMobile) {
-          cancelAnimationFrame(animationRef.current);
-          animationRef.current = requestAnimationFrame(mobileAnimation);
+      mm.add(
+        {
+          isMobile: "(max-width: 1024px)",
+          isDesktop: "(min-width: 1025px)",
+        },
+        (context) => {
+          let { isDesktop, isMobile } = context.conditions;
+  
+          if (isDesktop) {
+            cancelAnimationFrame(animationRef.current); // Cancel any existing animation
+            animationRef.current = requestAnimationFrame(desktopAnimation);
+          } else if (isMobile) {
+            cancelAnimationFrame(animationRef.current);
+            animationRef.current = requestAnimationFrame(mobileAnimation);
+          }
         }
-      }
-    );
-
-    return () => {
-      cancelAnimationFrame(animationRef.current); // Cleanup on unmount
-    };
+      );
+  
+      return () => {
+        cancelAnimationFrame(animationRef.current); // Cleanup on unmount
+      };
   }, []);
 
   const desktopAnimation = (currentTime) => {

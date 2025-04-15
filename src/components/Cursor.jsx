@@ -3,42 +3,51 @@ import gsap from 'gsap'
 
 const Cursor = ({cursorRef}) => {
 
+
+    const handleMousemove = (e)=>{
+        e.preventDefault();
+        gsap.to(cursorRef.current, {
+            x: e.clientX - 10,
+            y: e.clientY - 10,
+            duration: 0.5,
+            ease: "power2.Out",
+        })
+    }
+
+
+    const handleMousedown = (e)=>{
+        e.preventDefault();
+        gsap.to(cursorRef.current, {
+            scale: 0.8,
+            duration: 0.5,
+            ease: "power2.Out",
+        })
+    }
+
+
+    const handleMouseup = (e)=>{
+        e.preventDefault();
+        gsap.to(cursorRef.current, {
+            scale: 1,
+            duration: 0.5,
+            ease: "power2.Out",
+        })
+    }
+
     useEffect(()=>{
 
         if(!cursorRef) return;
 
-        document.addEventListener("mousemove", (e)=>{
-            e.preventDefault();
-            gsap.to(cursorRef.current, {
-                x: e.clientX - 10,
-                y: e.clientY - 10,
-                duration: 0.5,
-                ease: "power2.Out",
-            })
-        })
+        document.addEventListener("mousemove", handleMousemove);
 
-        document.addEventListener("mousedown", (e)=>{
-            e.preventDefault();
-            gsap.to(cursorRef.current, {
-                scale: 0.8,
-                duration: 0.5,
-                ease: "power2.Out",
-            })
-        })
+        document.addEventListener("mousedown", handleMousedown);
 
-        document.addEventListener("mouseup", (e)=>{
-            e.preventDefault();
-            gsap.to(cursorRef.current, {
-                scale: 1,
-                duration: 0.5,
-                ease: "power2.Out",
-            })
-        })
+        document.addEventListener("mouseup", handleMouseup);
 
         return () => {
-            document.removeEventListener("mousemove", ()=>{})
-            document.removeEventListener("mousedown", ()=>{})
-            document.removeEventListener("mouseup", ()=>{})
+            document.removeEventListener("mousemove", handleMousemove)
+            document.removeEventListener("mousedown", handleMousedown)
+            document.removeEventListener("mouseup", handleMouseup)
         }
 
     }, [cursorRef])
