@@ -182,7 +182,7 @@ const getAmenities = () => {
   // },[])
 
   return ( 
-    <div ref={pageRef} className='w-full h-full bg-emreald-200 overflow-y-scroll z-0'>
+    <div ref={pageRef} className='w-full h-full bg-emreald-200 overflow-y-scroll'>
       <div className='w-full h-full lg:grid lg:grid-cols-5 lg:grid-rows-5 p-5'>
       <div className='w-full p-5'>
         <label htmlFor="BHK" className="block mb-2 text-sm font-medium text-gray-900 text-[min(5vw,20px)]">BHK</label>

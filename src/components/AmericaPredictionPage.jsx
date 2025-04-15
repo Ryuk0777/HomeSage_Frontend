@@ -69,7 +69,7 @@ const AmericaPredictionPage = () => {
   }
 
   return (
-    <div ref={pageRef} className='w-full h-full  overflow-y-scroll z-0'>
+    <div ref={pageRef} className='w-full h-full  overflow-y-scroll'>
        <div className='w-full h-full lg:grid lg:grid-cols-3 lg:grid-rows-4 p-5'>
 
         <div className='w-full p-5'>
