@@ -5,9 +5,6 @@
 🌐 **Live Site:** [https://homesage.onrender.com](https://homesage.onrender.com)
 
 
-![alt text](HomeSage-2.gif)
-
-
 ## ✨ Features
 
 - 🌍 Supports price prediction for India, Malaysia, and America
